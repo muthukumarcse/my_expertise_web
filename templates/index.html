@@ -12,7 +12,8 @@
 <button type="button" name="loginBtn" id="loginBtn"style = "width:100px;" class="btn btn-default">Login</button>
 <button type="button" name="registrationBtn" id="registrationBtn" style = "width:100px;" class="btn btn-default">Register</button>
 </div>
-<div class="loginDiv" ng-controller="authenticationController">
+<div class="authenticateDiv"  ng-controller="authenticationController">
+<div class="loginDiv">
 <div class="form-group">
   <label for="usr">Name:</label>
   <input type="text" class="form-control" ng-model = "userName" id="usr">
@@ -52,6 +53,7 @@
 </div>
 
 <button type="button" style = "width:100px;" ng-click="register()" class="btn btn-primary btn-md">Save</button>
+</div>
 </div>
 </body>
 </html>
