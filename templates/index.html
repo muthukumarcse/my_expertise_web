@@ -25,34 +25,40 @@
 <button type="button" style = "width:100px;" ng-click="login()" class="btn btn-primary btn-md">Login</button>
 </div>
 
-<div class="registrationDiv">
+<div class="registrationDiv" ng-controller="registrationController">
+<form name = "regForm" novalidate class = "css-form">
 <div class="form-group">
   <label for="usr">User Name:</label>
-  <input type="text" class="form-control" id="usrName">
+  <input type="text" class="form-control" ng-model="user.name" name="usrName" id="usrName" required>
 </div>
 <div class="form-group">
   <label for="emailId">Email Id:</label>
-  <input type="text" class="form-control" id="emailId">
+  <input type="email" class="form-control" ng-model="user.email" name = "email" id="emailId" required>
+<span style="color:red" ng-show="regForm.email.$dirty && regForm.email.$invalid">
+  <span ng-show="regForm.email.$error.required">Email is required.</span>
+  <span ng-show="regForm.email.$error.email">Invalid email address.</span>
+  </span>
 </div>
 <div class="form-group">
   <label for="password">Password:</label>
-  <input type="password" class="form-control" id="password">
+  <input type="password" class="form-control" ng-model="user.password" id="password">
 </div>
 <div class="form-group">
   <label for="confirmPassword">Confirm password:</label>
-  <input type="password" class="form-control" id="confirmPassword">
+  <input type="password" class="form-control" ng-model="user.confirmPassword" id="confirmPassword">
 </div>
 
 <div class="form-group">
   <label for="phone">Phone Number:</label>
-  <input type="text" class="form-control" id="phone">
+  <input type="text" class="form-control" ng-model="user.phone" id="phone">
 </div>
 <div class="form-group">
   <label for="companyId">Company Id:</label>
-  <input type="text" class="form-control" id="companyId">
+  <input type="text" class="form-control" ng-model="user.companyId" id="companyId">
 </div>
 
-<button type="button" style = "width:100px;" ng-click="register()" class="btn btn-primary btn-md">Save</button>
+</form>
+<button type="button" style = "width:100px;" ng-click="register(user)" class="btn btn-primary btn-md">Save</button>
 </div>
 </div>
 </body>
