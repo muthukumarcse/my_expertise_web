@@ -30,35 +30,50 @@
 <div class="form-group">
   <label for="usr">User Name:</label>
   <input type="text" class="form-control" ng-model="user.name" name="usrName" id="usrName" required>
+<span style="color:red" ng-show="regForm.usrName.$touched && regForm.usrName.$invalid">
+	<span ng-show="regForm.usrName.$error.required"> User Name is required </span>
+</span>
 </div>
 <div class="form-group">
   <label for="emailId">Email Id:</label>
   <input type="email" class="form-control" ng-model="user.email" name = "email" id="emailId" required>
-<span style="color:red" ng-show="regForm.email.$dirty && regForm.email.$invalid">
+<span style="color:red" ng-show="regForm.email.$touched && regForm.email.$invalid">
   <span ng-show="regForm.email.$error.required">Email is required.</span>
   <span ng-show="regForm.email.$error.email">Invalid email address.</span>
   </span>
 </div>
 <div class="form-group">
   <label for="password">Password:</label>
-  <input type="password" class="form-control" ng-model="user.password" id="password">
+  <input type="password" class="form-control" ng-model="user.password" name="password" id="password" required>
+ <span style="color:red" ng-show="regForm.password.$touched && regForm.password.$invalid">
+	<span ng-show="regForm.password.$error.required"> Password is required </span>
+</span>
 </div>
 <div class="form-group">
   <label for="confirmPassword">Confirm password:</label>
-  <input type="password" class="form-control" ng-model="user.confirmPassword" id="confirmPassword">
+  <input type="password" class="form-control" ng-model="user.confirmPassword" name="confirmPassword" id="confirmPassword" required>
+  <span style="color:red" ng-show="regForm.confirmPassword.$touched && regForm.confirmPassword.$invalid">
+	<span ng-show="regForm.confirmPassword.$error.required"> Confirm Password is required </span>
+</span>
 </div>
 
 <div class="form-group">
   <label for="phone">Phone Number:</label>
-  <input type="text" class="form-control" ng-model="user.phone" id="phone">
+  <input type="text" class="form-control" ng-model="user.phone" name="phone" id="phone" required>
+<span style="color:red" ng-show="regForm.phone.$touched && regForm.phone.$invalid">
+	<span ng-show="regForm.phone.$error.required"> Phone Number is required </span>
+</span>
 </div>
 <div class="form-group">
   <label for="companyId">Company Id:</label>
-  <input type="text" class="form-control" ng-model="user.companyId" id="companyId">
+  <input type="text" class="form-control" ng-model="user.companyId" name="companyId" id="companyId" required>
+   <span style="color:red" ng-show="regForm.companyId.$touched && regForm.companyId.$invalid">
+	<span ng-show="regForm.companyId.$error.required"> Company Id is required </span>
+</span>
 </div>
 
 </form>
-<button type="button" style = "width:100px;" ng-click="register(user)" class="btn btn-primary btn-md">Save</button>
+<button type="button" style = "width:100px;" ng-disabled ="regForm.email.$invalid || regForm.usrName.$invalid || regForm.password.$invalid || regForm.confirmPassword.$invalid || regForm.companyId.$invalid || regForm.phone.$invalid" ng-click="register(user)" class="btn btn-primary btn-md">Save</button>
 </div>
 </div>
 </body>

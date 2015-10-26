@@ -2,12 +2,12 @@ $(document).ready(function() {
 
     $("#loginBtn").click(function() {
 
-        $( ".loginDiv" ).css('visibility','visible');
+       $( ".loginDiv" ).css('visibility','visible');
 	$( ".registrationDiv" ).css('visibility','hidden');
 
     });
 	$("#registrationBtn").click(function() {
-
+	 
         $( ".registrationDiv" ).css('visibility','visible');
 	$( ".loginDiv" ).css('visibility','hidden');
 
@@ -22,26 +22,51 @@ var app = angular.module('authenticate', [])
 
 app.controller('authenticationController', ['$scope','authenticateService', function($scope, authenticateService) {
 	$scope.login = function() {
-	authenticateService.getUsers();
+	authenticateService.getUsers().then(function (data) {
+                        $scope.docs = data; 
+			alert($scope.docs);
+                    }, function (error) {
+                        // promise rejected ... display generic no data found on table
+                        console.log('error', error);
+                    });
 
 }}])
 
 // service which will make a remote http request and access the data.
-app.service('authenticateService',['$http', function($http) {
+app.service('authenticateService',['$http', '$q', function($http, $q) {
+        var deffered = $q.defer();
 	var url = 'http://localhost:8081/myexpertise_frontend/users'
 	this.getUsers = function() {
-	return $http.get(url);
+	$http.get(url).success( function(d)
+	{
+		console.log(d);
+		deffered.resolve(d);
+	});
+		return deffered.promise;
 };
 }])
 
-app.controller('registrationController', ['$scope', 'registrationService', function($scope, registrationService) {
+app.controller('registrationController', ['$scope','$window', 'registrationService', function($scope, $window, registrationService) {
 	$scope.register = function(user) {
 	// Invoke registration service to register a new user
-	registrationService.register(user);
+	registrationService.register(user).then(function (data) {
+                        $scope.docs = data.success; 
+			if (data.success == 1)
+			{
+				$window.location.href ='/expertise_admin';
+			}
+                    }, function (error) {
+                        // promise rejected ... display generic no data found on table
+                        console.log('error', error);
+                    });
+
+       
+	//$window.location.href ='/expertise_admin';
 }
 }])
 
-app.service('registrationService', ['$http', function($http) {
+app.service('registrationService', ['$http', '$q', function($http, $q) {
+        var deffered = $q.defer();
 	this.register = function(user) {
 	var registrationReq = {
 		url: 'http://localhost:8081/myexpertise_frontend/user/register',
@@ -50,12 +75,17 @@ app.service('registrationService', ['$http', function($http) {
 		headers: {'Content-Type': 'application/json'}
 	    }
 	    
-	   $http(registrationReq).then(function(response) {
-
+	   $http(registrationReq).then(function successCallback(response) {
+			var data = response.data;
+			deffered.resolve(data);
+			alert('User Registered Successfully !');
+                        
 	    }, 
-	    function(response) { // optional
-
+	    function errorCallback(response) { // optional
+                        deffered.reject('Registration failed');
+			alert('User Registration Failed	 !');
 	    });
+		return deffered.promise;
 };
 
 }])
